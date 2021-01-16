@@ -186,3 +186,6 @@ df %>% ggplot() +
        col = "Action") +
   theme_minimal()
 ```
+
+![Q evolution](https://github.com/russell-j-boag/rl/q_evolution.pdf?raw=true)
+
