@@ -186,6 +186,11 @@ df %>% ggplot() +
        col = "Action") +
   theme_minimal()
 ```
+<object data="https://github.com/russell-j-boag/rl/q_evolution.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="https://github.com/russell-j-boag/rl/q_evolution.pdf">
+        <p>Download PDF: <a href="https://github.com/russell-j-boag/rl/q_evolution.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
-![Q evolution](https://github.com/russell-j-boag/rl/q_evolution.pdf?raw=true)
+![Q evolution](https://github.com/russell-j-boag/rl/q_evolution.pdf)
 
