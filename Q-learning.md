@@ -159,7 +159,6 @@ round(prop.table(table(data.frame(state = data$state, predicted))), 2)
 ## Plot Q-value evolution
 
 #### Some data wrangling to convert the `Q_evolution` list to a tidy data frame
-
 ``` r
 df <- bind_rows(Q_evolution, .id = "trial")
 df$trial <- as.numeric(df$trial)
