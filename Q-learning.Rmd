@@ -199,5 +199,5 @@ df %>% ggplot() +
 ```
 
 Here we can see that for each state, the model has learned the most rewarding action. 
-Inferior actions also show some activation due to receiving occaisional probabilistic feedback.
+Inferior actions also show some activation due to receiving occasional probabilistic feedback.
 Altering punishment magnitude or lowering the discounting parameter `gamma` will alter these trajectories. Altering the learning rate `alpha` affects how quickly the trajectories reach asymptote. 
