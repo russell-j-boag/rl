@@ -134,7 +134,7 @@ Q_evolution <- learned[[2]]
 
 #### Q-values approximate response proportions in data
 ``` {r}
-prop.table(Q)
+round(prop.table(Q), 2)
 round(prop.table(table(data$state, data$action)), 2)
 ```
 
@@ -163,8 +163,8 @@ predicted <- Q_predict(data, Q)
 
 #### Table predictions
 ``` {r}
-table(data.frame(state = data$state, predicted))
-round(prop.table(table(data.frame(state = data$state, predicted))), 2)
+table(data.frame(state = data$state, action = predicted))
+round(prop.table(table(data.frame(state = data$state, action = predicted))), 2)
 ```
 
 ## Plot Q-value evolution
