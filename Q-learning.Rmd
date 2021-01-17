@@ -1,25 +1,36 @@
-Implementation of Q-learning model
-================
-  
+---
+title: "Implementation of Q-learning model"
+author: ""
+output: html_document
+---
+
 Based on https://en.wikipedia.org/wiki/Q-learning
 
+```{r, echo = FALSE, results = 'hide'}
+knitr::opts_chunk$set( 
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE
+)
+```
 
 ## Setup environment 
 
 #### Clear workspace
-``` r
+``` {r}
 rm(list = ls())
 ```
 
 #### Load packages
-``` r
+``` {r}
 library(tidyverse)
 ```
 
 ## Simulate data 
 
 #### Create data frame for simulated data
-``` r
+``` {r, results = 'hide'}
 n_trials <- 1000
 states <- c("s1", "s2", "s3")
 actions <- c("a1", "a2", "a3")
@@ -34,7 +45,7 @@ head(data)
 ```
 
 #### Simulate probabilistic responses and calculate rewards
-``` r
+``` {r}
 data <- data %>% 
   mutate(action = factor(ifelse((state == "s1"), 
                                 sample(actions, 
@@ -57,7 +68,7 @@ head(data)
 ```
 
 #### Confusion matrix
-``` r
+``` {r}
 table(data$state, data$action)
 prop.table(table(data$reward))
 ```
@@ -65,7 +76,7 @@ prop.table(table(data$reward))
 ## Learn 
 
 #### Q-learning function
-``` r
+``` {r}
 Q_learn <- function(data, alpha, gamma) {
   # Inputs:
   # data  = data frame with columns 'state/action/reward/next_state'
@@ -107,22 +118,22 @@ Q_learn <- function(data, alpha, gamma) {
 ```
 
 #### Learn
-``` r
+``` {r}
 learned <- Q_learn(data, alpha = 0.08, gamma = 0.65)
 ```
 
 #### Final Q-values
-``` r
+``` {r}
 Q <- learned[[1]] 
 ```
 
 #### Every iteration of Q-values
-``` r
+``` {r}
 Q_evolution <- learned[[2]]  
 ```
 
 #### Q-values approximate response proportions in data
-``` r
+``` {r}
 prop.table(Q)
 round(prop.table(table(data$state, data$action)), 2)
 ```
@@ -130,7 +141,7 @@ round(prop.table(table(data$state, data$action)), 2)
 ## Predict
 
 #### Action prediction function
-``` r
+``` {r}
 Q_predict <- function(data, Q) {
   # Create output objects
   action <- numeric(nrow(data))
@@ -146,12 +157,12 @@ Q_predict <- function(data, Q) {
 ```
 
 #### Get predictions
-``` r
+``` {r}
 predicted <- Q_predict(data, Q)
 ```
 
 #### Table predictions
-``` r
+``` {r}
 table(data.frame(state = data$state, predicted))
 round(prop.table(table(data.frame(state = data$state, predicted))), 2)
 ```
@@ -159,7 +170,7 @@ round(prop.table(table(data.frame(state = data$state, predicted))), 2)
 ## Plot Q-value evolution
 
 #### Some data wrangling to convert the `Q_evolution` list to a tidy data frame
-``` r
+``` {r, results = 'hide'}
 df <- bind_rows(Q_evolution, .id = "trial")
 df$trial <- as.numeric(df$trial)
 df <- rownames_to_column(df, var = "state")
@@ -174,7 +185,7 @@ head(df)
 ```
 
 #### Plot
-``` r
+``` {r}
 df %>% ggplot() +
   geom_line(aes(x = trial, 
                 y = Q_normalized, 
@@ -186,11 +197,7 @@ df %>% ggplot() +
        col = "Action") +
   theme_minimal()
 ```
-<object data="https://github.com/russell-j-boag/rl/q_evolution.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="https://github.com/russell-j-boag/rl/q_evolution.pdf">
-        <p>Download PDF: <a href="https://github.com/russell-j-boag/rl/q_evolution.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
 
-![Q evolution](https://github.com/russell-j-boag/rl/q_evolution.pdf)
-
+Here we can see that for each state, the model has learned the most rewarding action. 
+Inferior actions also show some activation due to receiving occaisional probabilistic feedback.
+Altering punishment magnitude or lowering the discounting parameter `gamma` will alter these trajectories. Altering the learning rate `alpha` affects how quickly the trajectories reach asymptote. 
