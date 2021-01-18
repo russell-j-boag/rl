@@ -69,8 +69,12 @@ head(data)
 
 #### Confusion matrix
 ``` {r}
-table(data$state, data$action)
-prop.table(table(data$reward))
+table(state = data$state, action = data$action)
+```
+
+#### Accuracy
+``` {r}
+prop.table(table(reward = data$reward))
 ```
 
 ## Learn 
